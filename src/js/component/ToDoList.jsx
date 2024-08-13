@@ -6,11 +6,11 @@ const ToDoList = () => {
 
     const[newTask, setNewTask] = useState("")
 
-    const[TaskList, setTaskList] = useState
+    const[TaskList, setTaskList] = useState([])
 
     return(
         <div>
-            <input type="text" value={search} placeholder="What do you want to do next" />
+            <input type="text" value={newTask} placeholder="What do you want to do next" 
             onChange={(event) => setNewTask(event.target.value)}
             
             onKeyUp = {(event) => {(event.target.key == "Enter")
@@ -21,14 +21,17 @@ const ToDoList = () => {
                     setNewTask("");
                 }
             }
+        
+
+            }}/>
             
-            
-            }};
+          
             {(TaskList.length == 0) && <div>No more task!, Time for drink!</div>}
             {TaskList.map((tarea, index) => <Task task={tarea} key={index} onRemove={()=>{
-                setTaskList(TaskList.filter((_tarea, indiceABorrar)=> indice != indiceABorrar))
+                setTaskList(TaskList
+                    .filter((_tarea, indiceABorrar)=> index != indiceABorrar))
             }} />)}
-            <p>{TaskList.length}items left</p>
+            <p>{TaskList.length} items left</p>
 
         </div>
     )
