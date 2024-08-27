@@ -1,27 +1,61 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 import Task from "./Tasks";
 
 const ToDoList = () => {
 
-    const[newTask, setNewTask] = useState("")
 
-    const[TaskList, setTaskList] = useState([])
+    const[newTask, setNewTask] = useState("");
 
+    const[TaskList, setTaskList] = useState([]);
+
+    const fetchTask =  async() => {
+        const res = await fetch('https://playground.4geeks.com/todo/users/cesarcontreras');
+        const data = await res.json();
+        setTaskList(data.todos);
+    }
+    useEffect(() => {
+        fetchTask();
+    }, [])
+
+    const createTask = async () => {
+        const post = await fetch('https://playground.4geeks.com/todo/todos/cesarcontreras' , {
+            method: 'POST',
+            body: JSON.stringify({
+                label: newTask,
+                is_done: false,
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await post.json();
+        setTaskList([...TaskList, data]);
+        setNewTask("");
+    };
+
+
+    
+
+    const newTodo = () => {
+        if (inputValue.trim() != ""){
+            createTask();
+        }
+    };
+
+   console.log(TaskList);
     return(
         <div>
             <input type="text" value={newTask} placeholder="What do you want to do next" 
             onChange={(event) => setNewTask(event.target.value)}
             
-            onKeyUp = {(event) => {(event.target.key == "Enter")
+            onKeyUp = {(event) => {
             
-            onkeyup = (event) => {
                 if (event.key == 'Enter'){
-                    setTaskList([newTask, ...TaskList])
-                    setNewTask("");
+                    createTask();
+
                 }
-            }
-        
+                console.log(event.key);
 
             }}/>
             
