@@ -4,6 +4,7 @@ import Task from "./Tasks";
 
 const ToDoList = () => {
 
+    
 
     const[newTask, setNewTask] = useState("");
 
@@ -27,11 +28,22 @@ const ToDoList = () => {
             }),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            
         });
         const data = await post.json();
         setTaskList([...TaskList, data]);
         setNewTask("");
+    };
+
+    const deleteAllTasks = async () => {
+        await fetch('https://playground.4geeks.com/todo/todos/cesarcontreras' , {
+            method: 'DELETE',
+            headers: {
+                "Content-type": "application/json"
+            },
+        });
+        setTaskList([]);
     };
 
 
@@ -58,7 +70,7 @@ const ToDoList = () => {
                 console.log(event.key);
 
             }}/>
-            
+            <button onClick={deleteAllTasks} className="border-0 bg-transparent"> <i class="fa-solid fa-trash"></i> </button>
           
             {(TaskList.length == 0) && <div>No more task!, Time for drink!</div>}
             {TaskList.map((tarea, index) => <Task task={tarea} key={index} onRemove={()=>{
