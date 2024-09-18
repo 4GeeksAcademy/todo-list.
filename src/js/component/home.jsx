@@ -1,5 +1,5 @@
 import React from "react";
-import ToDoList from "./ToDoList";
+import ToDoList from "./toDoList";
 //include images into your bundle
 
 //create your first component
